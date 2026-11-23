@@ -1,0 +1,1 @@
+# 本插件不依赖任何第三方 Python 包，requirements.txt 仅用于说明。

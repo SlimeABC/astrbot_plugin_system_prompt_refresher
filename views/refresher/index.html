@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>系统提示词刷新</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <h1 id="heading">系统提示词刷新</h1>
+          <p id="subtitle" class="muted">刷新系统提示词，或备份当前对话</p>
+        </div>
+        <div class="actions">
+          <button id="refresh" type="button">刷新</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="filters" aria-label="筛选">
+          <div class="filter-group">
+            <label class="filter-label" for="search" id="search-label">搜索关键词</label>
+            <input
+              id="search"
+              class="search"
+              type="search"
+              placeholder="搜索标题、昵称或 ID…"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label" id="bots-label">机器人</div>
+            <div id="bots" class="bot-list"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-label" id="types-label">对话类型</div>
+            <div id="types" class="type-buttons">
+              <button type="button" data-type="private">私聊</button>
+              <button type="button" data-type="group">群聊</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="sort" id="sort-label">排序</label>
+            <div class="sort-row">
+              <select id="sort" class="select"></select>
+              <button
+                id="direction"
+                type="button"
+                class="direction"
+                aria-label="排序方向"
+              >
+                ↓
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <main class="list-panel">
+          <div class="list-header">
+            <div>
+              <h2 id="list-title">对话</h2>
+              <p id="list-count" class="muted"></p>
+              <p id="list-hint" class="muted list-hint"></p>
+            </div>
+            <label class="switch">
+              <input id="group" type="checkbox" />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span id="group-label">按会话分组</span>
+            </label>
+          </div>
+
+          <section id="stats" class="stats" aria-live="polite"></section>
+          <main id="list" class="list"></main>
+          <p id="status" class="status" role="status"></p>
+        </main>
+      </div>
+    </div>
+
+    <dialog
+      id="confirm-dialog"
+      class="confirm-dialog"
+      aria-labelledby="confirm-title"
+      aria-describedby="confirm-message"
+    >
+      <div class="confirm-card">
+        <h3 id="confirm-title" class="confirm-title"></h3>
+        <p id="confirm-message" class="confirm-message"></p>
+        <div id="confirm-field" class="confirm-field" hidden>
+          <label
+            id="confirm-field-label"
+            class="confirm-field-label"
+            for="confirm-textarea"
+          ></label>
+          <textarea
+            id="confirm-textarea"
+            class="confirm-textarea"
+            rows="8"
+            spellcheck="false"
+          ></textarea>
+        </div>
+        <div id="confirm-input-field" class="confirm-field" hidden>
+          <label
+            id="confirm-input-label"
+            class="confirm-field-label"
+            for="confirm-input"
+          ></label>
+          <input
+            id="confirm-input"
+            class="confirm-input"
+            type="text"
+            maxlength="255"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <div class="confirm-actions">
+          <button type="button" id="confirm-cancel" class="confirm-cancel">
+            取消
+          </button>
+          <button type="button" id="confirm-ok" class="confirm-ok">确认</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

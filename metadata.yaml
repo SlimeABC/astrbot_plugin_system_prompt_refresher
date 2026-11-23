@@ -1,0 +1,14 @@
+name: astrbot_plugin_system_prompt_refresher
+display_name: 系统提示词刷新
+desc: 在长对话中使模型重新遵循系统提示词，或在修改提示词后刷新使其生效；刷新前默认备份当前对话，刷新后继续在原对话中，不丢失聊天记录。
+short_desc: 刷新系统提示词并保留对话上下文
+version: "1.0.0"
+author: Slime
+repo: https://github.com/SlimeABC/astrbot_plugin_system_prompt_refresher
+category: 工具
+tags:
+  - 系统提示词
+  - 上下文
+  - 备份
+  - 管理员
+  - WebUI

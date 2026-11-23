@@ -1,0 +1,183 @@
+{
+  "command": {
+    "description": "刷新指令",
+    "hint": "管理员在对话中 @机器人或使用唤醒词后输入指令；私聊可直接输入。",
+    "type": "object",
+    "items": {
+      "command_name": {
+        "description": "指令名",
+        "hint": "默认 refresh_prompt；不区分大小写，可带 / 或 ! 前缀。",
+        "type": "string",
+        "default": "refresh_prompt"
+      },
+      "confirm_word": {
+        "description": "确认词",
+        "hint": "默认 confirm。只有带确认词才会真正执行。",
+        "type": "string",
+        "default": "confirm"
+      },
+      "require_admin": {
+        "description": "刷新仅管理员可用",
+        "hint": "默认开启。关闭后所有用户都能刷新系统提示词，不建议。",
+        "type": "bool",
+        "default": true
+      }
+    }
+  },
+  "backup": {
+    "description": "刷新前备份",
+    "hint": "刷新时先另存一份当前对话，然后继续在原对话上刷新。",
+    "type": "object",
+    "items": {
+      "backup_before_refresh": {
+        "description": "刷新前另存备份",
+        "hint": "开启后每次刷新都会生成一份“原标题_backup”；关闭则直接刷新原对话，不生成备份。",
+        "type": "bool",
+        "default": true
+      },
+      "backup_conversation_title": {
+        "description": "备份对话标题",
+        "hint": "支持 {title} 和 {time} 占位符；默认 {title}_backup。",
+        "type": "string",
+        "default": "{title}_backup"
+      }
+    }
+  },
+  "copy": {
+    "description": "备份当前对话",
+    "hint": "管理员输入 copy_chat confirm 后，把当前对话另存为“原标题_backup”，然后继续在原对话中。",
+    "type": "object",
+    "items": {
+      "copy_command_name": {
+        "description": "备份指令名",
+        "hint": "默认 copy_chat；不区分大小写，可带 / 或 ! 前缀。",
+        "type": "string",
+        "default": "copy_chat"
+      },
+      "copy_require_admin": {
+        "description": "备份仅管理员可用",
+        "hint": "默认开启。",
+        "type": "bool",
+        "default": true
+      },
+      "reply_copy_success": {
+        "description": "备份成功提示",
+        "type": "string",
+        "default": "已另存当前对话备份，继续在原对话中"
+      }
+    }
+  },
+  "snapshot": {
+    "description": "系统提示词快照",
+    "hint": "刷新时会把当前完整系统提示词原文写入对话末尾，作为高优先级提醒。",
+    "type": "object",
+    "items": {
+      "replace_previous": {
+        "description": "替换上一份快照",
+        "hint": "默认开启。开启后对话中始终只保留最新一份系统提示词快照。",
+        "type": "bool",
+        "default": true
+      },
+      "max_chars": {
+        "description": "快照最大字符数（0 = 不限制）",
+        "hint": "系统提示词过长时可限制写入长度；0 表示保留完整原文。",
+        "type": "int",
+        "default": 0,
+        "slider": {
+          "min": 0,
+          "max": 50000,
+          "step": 500
+        }
+      }
+    }
+  },
+  "webui": {
+    "description": "WebUI 缓存与刷新",
+    "hint": "缓存对话列表，减少进入视图时的等待时间。",
+    "type": "object",
+    "items": {
+      "cache_ttl_seconds": {
+        "description": "列表缓存时间（秒，0 = 不缓存）",
+        "hint": "默认 300 秒。进入视图先显示缓存，再在后台更新；点顶部刷新会绕过缓存。",
+        "type": "int",
+        "default": 300,
+        "slider": {
+          "min": 0,
+          "max": 3600,
+          "step": 30
+        }
+      },
+      "auto_refresh_enabled": {
+        "description": "启用自动刷新",
+        "hint": "默认开启。",
+        "type": "bool",
+        "default": true
+      },
+      "auto_refresh_interval": {
+        "description": "自动刷新间隔（分钟）",
+        "hint": "默认 60 分钟，范围 1–1440。",
+        "type": "int",
+        "default": 60,
+        "slider": {
+          "min": 1,
+          "max": 1440,
+          "step": 1
+        }
+      }
+    }
+  },
+  "reply": {
+    "description": "回复文案",
+    "hint": "刷新与备份结果由插件直接回复，不会调用模型。",
+    "type": "object",
+    "items": {
+      "strip_trailing_period": {
+        "description": "去掉回复末尾句号",
+        "hint": "默认开启。开启后发送给用户的话末尾的“。”会自动去掉。",
+        "type": "bool",
+        "default": true
+      },
+      "reply_confirm_required": {
+        "description": "缺少确认词时的提示",
+        "hint": "默认：请添加confirm确认",
+        "type": "string",
+        "default": "请添加confirm确认"
+      },
+      "reply_success": {
+        "description": "刷新成功提示（不备份）",
+        "hint": "关闭“刷新前另存备份”时使用。",
+        "type": "string",
+        "default": "系统提示词已刷新，对话上下文已保留"
+      },
+      "reply_success_backup": {
+        "description": "刷新并备份成功提示",
+        "hint": "启用“刷新前另存备份”时使用。",
+        "type": "string",
+        "default": "系统提示词已刷新，已另存备份，继续在原对话中"
+      },
+      "reply_admin_only": {
+        "description": "非管理员提示",
+        "type": "string",
+        "default": "仅管理员可以执行此操作"
+      },
+      "reply_delete_success": {
+        "description": "删除对话成功提示",
+        "type": "string",
+        "default": "对话已删除"
+      }
+    }
+  },
+  "appearance": {
+    "description": "外观",
+    "hint": "自定义 WebUI 的主色。",
+    "type": "object",
+    "items": {
+      "theme_color": {
+        "description": "主题色",
+        "hint": "HTML 颜色代码，例如 #22c55e；默认绿色。",
+        "type": "string",
+        "default": "#22c55e"
+      }
+    }
+  }
+}

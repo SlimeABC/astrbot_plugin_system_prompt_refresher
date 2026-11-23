@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "display_name": "System Prompt Refresher",
+    "short_desc": "Refresh the system prompt while keeping the conversation",
+    "desc": "Restores compliance with the system prompt in long conversations, or applies prompt changes without losing chat history. Backs up the conversation by default and continues in the original conversation."
+  },
+  "config": {
+    "command": {
+      "description": "Refresh command",
+      "hint": "Admins can @ the bot or use the wake prefix, then send the command; private chat can send it directly.",
+      "command_name": {
+        "description": "Command name",
+        "hint": "Defaults to refresh_prompt; case-insensitive, optional / or ! prefix."
+      },
+      "confirm_word": {
+        "description": "Confirmation word",
+        "hint": "Defaults to confirm. The action only runs with this word."
+      },
+      "require_admin": {
+        "description": "Refresh is admin-only",
+        "hint": "Enabled by default. Turning it off lets everyone refresh the system prompt; not recommended."
+      }
+    },
+    "backup": {
+      "description": "Backup before refresh",
+      "hint": "Saves a copy of the current conversation, then refreshes the original conversation.",
+      "backup_before_refresh": {
+        "description": "Back up before refreshing",
+        "hint": "Creates an “original title_backup” conversation on every refresh. Disable to refresh in place without a backup."
+      },
+      "backup_conversation_title": {
+        "description": "Backup conversation title",
+        "hint": "Supports {title} and {time}; defaults to {title}_backup."
+      }
+    },
+    "copy": {
+      "description": "Back up current conversation",
+      "hint": "After copy_chat confirm, saves the current conversation as “original title_backup” and continues in the original conversation.",
+      "copy_command_name": {
+        "description": "Backup command name",
+        "hint": "Defaults to copy_chat; case-insensitive, optional / or ! prefix."
+      },
+      "copy_require_admin": {
+        "description": "Backup is admin-only",
+        "hint": "Enabled by default."
+      },
+      "reply_copy_success": {
+        "description": "Backup success reply"
+      }
+    },
+    "snapshot": {
+      "description": "System prompt snapshot",
+      "hint": "Writes the full current system prompt to the end of the conversation as a high-priority reminder.",
+      "replace_previous": {
+        "description": "Replace the previous snapshot",
+        "hint": "Enabled by default. Keeps only the latest system prompt snapshot in a conversation."
+      },
+      "max_chars": {
+        "description": "Snapshot character limit (0 = unlimited)",
+        "hint": "Limit the written prompt length when it is very long; 0 keeps the full text."
+      }
+    },
+    "webui": {
+      "description": "WebUI cache & refresh",
+      "hint": "Caches the conversation list so opening the view is faster.",
+      "cache_ttl_seconds": {
+        "description": "List cache TTL (seconds, 0 = disabled)",
+        "hint": "Defaults to 300. The view shows cached data first, then updates in the background; the top Refresh button bypasses the cache."
+      },
+      "auto_refresh_enabled": {
+        "description": "Enable auto refresh",
+        "hint": "Enabled by default."
+      },
+      "auto_refresh_interval": {
+        "description": "Auto refresh interval (minutes)",
+        "hint": "Defaults to 60 minutes, range 1–1440."
+      }
+    },
+    "reply": {
+      "description": "Reply texts",
+      "hint": "Refresh and backup results are sent by the plugin without calling the model.",
+      "strip_trailing_period": {
+        "description": "Strip trailing periods",
+        "hint": "Enabled by default. Removes the trailing “。” from replies sent to users."
+      },
+      "reply_confirm_required": {
+        "description": "Missing confirmation reply",
+        "hint": "Default: 请添加confirm确认"
+      },
+      "reply_success": {
+        "description": "Refresh success (no backup)",
+        "hint": "Used when “backup before refresh” is disabled."
+      },
+      "reply_success_backup": {
+        "description": "Refresh with backup success",
+        "hint": "Used when “backup before refresh” is enabled."
+      },
+      "reply_admin_only": {
+        "description": "Non-admin reply"
+      }
+    },
+    "appearance": {
+      "description": "Appearance",
+      "hint": "Customize the WebUI accent color.",
+      "theme_color": {
+        "description": "Theme color",
+        "hint": "HTML color code, e.g. #22c55e; green by default."
+      }
+    }
+  },
+  "views": {
+    "refresher": {
+      "title": "System Prompt Refresher",
+      "description": "Refresh the system prompt or back up the current conversation, keeping the original",
+      "heading": "System Prompt Refresher",
+      "subtitle": "Refresh the system prompt or back up the current conversation",
+      "search_placeholder": "Search title, nickname or ID…",
+      "refresh": "Refresh",
+      "search_label": "Search",
+      "bots_label": "Bots",
+      "types_label": "Chat type",
+      "sort_label": "Sort",
+      "list_title": "Conversations",
+      "list_hint": "“Refresh prompt” rewrites the current system prompt into this conversation and keeps the chat history. A prompt is recorded after you send one message in that conversation",
+      "group_by_session": "Group by session",
+      "group_toggle_hint": "Click to expand or collapse this session",
+      "conversation_count": "%s conversations",
+      "group_count": "%s conversations",
+      "no_bots": "No bots",
+      "private": "Private",
+      "group": "Group",
+      "unknown_type": "Other",
+      "unknown_bot": "Unknown bot",
+      "sort_updated": "Recently updated",
+      "sort_messages": "Messages",
+      "sort_chars": "Characters",
+      "sort_title": "Title",
+      "sort_created": "Created",
+      "sort_asc": "Ascending",
+      "sort_desc": "Descending",
+      "stat_conversations": "Conversations",
+      "stat_sessions": "Sessions",
+      "stat_with_snapshot": "Has snapshot",
+      "stat_refreshable": "Prompt recorded",
+      "loading": "Loading conversations…",
+      "loaded": "Loaded %s conversations",
+      "loading_cached": "Showing cached data, updating in the background…",
+      "updated": "Updated",
+      "error": "Failed to load",
+      "bridge_error": "The AstrBotPluginView bridge is not available. Open this page inside the AstrBot WebUI.",
+      "empty": "No conversations yet",
+      "empty_hint": "Conversations that can be refreshed or backed up will appear here.",
+      "no_match": "No matching conversations",
+      "no_match_hint": "Try another keyword.",
+      "current": "Current",
+      "backup": "Backup",
+      "has_snapshot": "Has snapshot",
+      "no_snapshot": "No snapshot",
+      "refreshable": "Prompt recorded",
+      "prompt_not_cached": "Prompt not recorded · send a message in this conversation",
+      "prompt_cached": "Prompt recorded · %s chars · %s",
+      "snapshot_chars": "%s snapshot chars",
+      "messages": "%s messages",
+      "chars": "%s chars",
+      "untitled": "Untitled conversation",
+      "unknown_platform": "Unknown platform",
+      "action_refresh": "Refresh prompt",
+      "action_copy": "Back up",
+      "action_clear": "Clear snapshot",
+      "action_clear_hint": "Delete the system prompt snapshot written by a refresh, undoing the refresh; chat history, persona settings, and backup conversations are untouched",
+      "action_delete": "Delete conversation",
+      "copy_id_hint": "Click to copy the full conversation ID",
+      "id_copied": "Conversation ID copied",
+      "id_copied_short": "Copied",
+      "id_copy_failed": "Copy failed, please select the conversation ID manually",
+      "op_failed_title": "Action failed",
+      "confirm_title_refresh": "Refresh system prompt",
+      "confirm_message_refresh": "This will back up conversation “%s”, then write the latest system prompt snapshot into it. No message will be sent in chat. The first few messages after refreshing may have a lower cache hit rate and cost extra",
+      "confirm_message_refresh_no_backup": "This will write the latest system prompt snapshot into conversation “%s”. No message will be sent in chat. The first few messages after refreshing may have a lower cache hit rate and cost extra",
+      "confirm_message_refresh_edit": "This will back up conversation “%s”, then replace only the persona prompt snippet below and write the snapshot. The rest of the system prompt stays unchanged; no message will be sent in chat. The first few messages after refreshing may have a lower cache hit rate and cost extra",
+      "confirm_message_refresh_edit_no_backup": "This will replace only the persona prompt snippet below in conversation “%s” and write the snapshot. The rest of the system prompt stays unchanged; no message will be sent in chat. The first few messages after refreshing may have a lower cache hit rate and cost extra",
+      "persona_label": "Persona prompt snippet",
+      "persona_unavailable": "No persona prompt snippet found; the full system prompt will be used",
+      "confirm_ok_refresh": "Refresh",
+      "confirm_title_copy": "Back up conversation",
+      "confirm_message_copy": "This will save conversation “%s” as a backup. The original conversation stays unchanged",
+      "confirm_ok_copy": "Back up",
+      "backup_title_label": "Backup name",
+      "backup_title_placeholder": "Enter a name for the backup",
+      "confirm_title_delete": "Delete conversation",
+      "confirm_message_delete": "This permanently deletes conversation “%s” and all of its chat history. This cannot be undone",
+      "confirm_ok_delete": "Delete",
+      "confirm_ok_delete_again": "Click again to confirm delete",
+      "confirm_title_clear": "Clear snapshot",
+      "confirm_message_clear": "This will delete the system prompt snapshot written by a refresh, undoing the refresh reinforcement. Chat history, persona/system prompt settings, and backup conversations are untouched",
+      "confirm_ok_clear": "Clear",
+      "confirm_cancel": "Cancel",
+      "refresh_disabled_hint": "Send a message in this conversation first so the plugin can record the system prompt",
+      "refresh_need_record": "“%s” has no recorded system prompt yet. Send a message in this conversation first, then refresh",
+      "refresh_need_record_title": "System prompt not recorded",
+      "confirm_ok_notice": "Got it",
+      "working": "Working…",
+      "done": "Done",
+      "just_now": "just now",
+      "minutes_ago": "%s min ago",
+      "hours_ago": "%s h ago",
+      "days_ago": "%s d ago"
+    }
+  }
+}

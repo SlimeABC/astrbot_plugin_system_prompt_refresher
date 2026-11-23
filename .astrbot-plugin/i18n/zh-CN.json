@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "display_name": "系统提示词刷新",
+    "short_desc": "刷新系统提示词并保留对话上下文",
+    "desc": "在长对话中使模型重新遵循系统提示词，或在修改提示词后刷新使其生效；刷新前默认备份当前对话，刷新后继续在原对话中，不丢失聊天记录。"
+  },
+  "config": {
+    "command": {
+      "description": "刷新指令",
+      "hint": "管理员在对话中 @机器人或使用唤醒词后输入指令；私聊可直接输入。",
+      "command_name": {
+        "description": "指令名",
+        "hint": "默认 refresh_prompt；不区分大小写，可带 / 或 ! 前缀。"
+      },
+      "confirm_word": {
+        "description": "确认词",
+        "hint": "默认 confirm。只有带确认词才会真正执行。"
+      },
+      "require_admin": {
+        "description": "刷新仅管理员可用",
+        "hint": "默认开启。关闭后所有用户都能刷新系统提示词，不建议。"
+      }
+    },
+    "backup": {
+      "description": "刷新前备份",
+      "hint": "刷新时先另存一份当前对话，然后继续在原对话上刷新。",
+      "backup_before_refresh": {
+        "description": "刷新前另存备份",
+        "hint": "开启后每次刷新都会生成一份“原标题_backup”；关闭则直接刷新原对话，不生成备份。"
+      },
+      "backup_conversation_title": {
+        "description": "备份对话标题",
+        "hint": "支持 {title} 和 {time} 占位符；默认 {title}_backup。"
+      }
+    },
+    "copy": {
+      "description": "备份当前对话",
+      "hint": "管理员输入 copy_chat confirm 后，把当前对话另存为“原标题_backup”，然后继续在原对话中。",
+      "copy_command_name": {
+        "description": "备份指令名",
+        "hint": "默认 copy_chat；不区分大小写，可带 / 或 ! 前缀。"
+      },
+      "copy_require_admin": {
+        "description": "备份仅管理员可用",
+        "hint": "默认开启。"
+      },
+      "reply_copy_success": {
+        "description": "备份成功提示"
+      }
+    },
+    "snapshot": {
+      "description": "系统提示词快照",
+      "hint": "刷新时会把当前完整系统提示词原文写入对话末尾，作为高优先级提醒。",
+      "replace_previous": {
+        "description": "替换上一份快照",
+        "hint": "默认开启。开启后对话中始终只保留最新一份系统提示词快照。"
+      },
+      "max_chars": {
+        "description": "快照最大字符数（0 = 不限制）",
+        "hint": "系统提示词过长时可限制写入长度；0 表示保留完整原文。"
+      }
+    },
+    "webui": {
+      "description": "WebUI 缓存与刷新",
+      "hint": "缓存对话列表，减少进入视图时的等待时间。",
+      "cache_ttl_seconds": {
+        "description": "列表缓存时间（秒，0 = 不缓存）",
+        "hint": "默认 300 秒。进入视图先显示缓存，再在后台更新；点顶部刷新会绕过缓存。"
+      },
+      "auto_refresh_enabled": {
+        "description": "启用自动刷新",
+        "hint": "默认开启。"
+      },
+      "auto_refresh_interval": {
+        "description": "自动刷新间隔（分钟）",
+        "hint": "默认 60 分钟，范围 1–1440。"
+      }
+    },
+    "reply": {
+      "description": "回复文案",
+      "hint": "刷新与备份结果由插件直接回复，不会调用模型。",
+      "strip_trailing_period": {
+        "description": "去掉回复末尾句号",
+        "hint": "默认开启。开启后发送给用户的话末尾的“。”会自动去掉。"
+      },
+      "reply_confirm_required": {
+        "description": "缺少确认词时的提示",
+        "hint": "默认：请添加confirm确认"
+      },
+      "reply_success": {
+        "description": "刷新成功提示（不备份）",
+        "hint": "关闭“刷新前另存备份”时使用。"
+      },
+      "reply_success_backup": {
+        "description": "刷新并备份成功提示",
+        "hint": "启用“刷新前另存备份”时使用。"
+      },
+      "reply_admin_only": {
+        "description": "非管理员提示"
+      }
+    },
+    "appearance": {
+      "description": "外观",
+      "hint": "自定义 WebUI 的主色。",
+      "theme_color": {
+        "description": "主题色",
+        "hint": "HTML 颜色代码，例如 #22c55e；默认绿色。"
+      }
+    }
+  },
+  "views": {
+    "refresher": {
+      "title": "系统提示词刷新",
+      "description": "刷新系统提示词，或备份当前对话，原对话保留",
+      "heading": "系统提示词刷新",
+      "subtitle": "刷新系统提示词，或备份当前对话",
+      "search_placeholder": "搜索标题、昵称或 ID…",
+      "refresh": "刷新",
+      "search_label": "搜索关键词",
+      "bots_label": "机器人",
+      "types_label": "对话类型",
+      "sort_label": "排序",
+      "list_title": "对话",
+      "list_hint": "“刷新提示词”会把当前系统提示词重新写入该对话，并保留聊天记录；提示词需要先在这个对话里发一条消息才会被记录",
+      "group_by_session": "按会话分组",
+      "group_toggle_hint": "点击展开或折叠该会话",
+      "conversation_count": "共 %s 条",
+      "group_count": "%s 条对话",
+      "no_bots": "暂无机器人",
+      "private": "私聊",
+      "group": "群聊",
+      "unknown_type": "其他",
+      "unknown_bot": "未知机器人",
+      "sort_updated": "最近更新",
+      "sort_messages": "消息数",
+      "sort_chars": "字符数",
+      "sort_title": "标题",
+      "sort_created": "创建时间",
+      "sort_asc": "升序",
+      "sort_desc": "降序",
+      "stat_conversations": "对话",
+      "stat_sessions": "会话",
+      "stat_with_snapshot": "有刷新快照",
+      "stat_refreshable": "提示词已记录",
+      "loading": "正在读取对话…",
+      "loaded": "已读取 %s 个对话",
+      "loading_cached": "已显示缓存，正在后台更新…",
+      "updated": "已更新",
+      "error": "读取失败",
+      "bridge_error": "AstrBotPluginView bridge 未注入，请在 AstrBot WebUI 中打开此页面",
+      "empty": "暂无对话记录",
+      "empty_hint": "AstrBot 产生对话后，这里会显示可以刷新提示词或备份的对话",
+      "no_match": "没有匹配的对话",
+      "no_match_hint": "换个关键词试试",
+      "current": "当前对话",
+      "backup": "备份",
+      "has_snapshot": "有刷新快照",
+      "no_snapshot": "无刷新快照",
+      "refreshable": "提示词已记录",
+      "prompt_not_cached": "提示词未记录 · 先在这个对话里发一条消息",
+      "prompt_cached": "提示词已记录 · %s 字符 · %s",
+      "snapshot_chars": "刷新快照 %s 字符",
+      "messages": "%s 条消息",
+      "chars": "%s 字符",
+      "untitled": "未命名对话",
+      "unknown_platform": "未知平台",
+      "action_refresh": "刷新提示词",
+      "action_copy": "备份对话",
+      "action_clear": "清除快照",
+      "action_clear_hint": "删除刷新时写入的系统提示词快照，相当于撤销本次刷新；不会删除聊天记录、修改人格配置或删除备份对话",
+      "action_delete": "删除对话",
+      "copy_id_hint": "点击复制完整对话 ID",
+      "id_copied": "已复制对话 ID",
+      "id_copied_short": "已复制",
+      "id_copy_failed": "复制失败，请手动选择对话 ID",
+      "op_failed_title": "操作失败",
+      "confirm_title_refresh": "刷新系统提示词",
+      "confirm_message_refresh": "将先备份对话“%s”，再把最新系统提示词快照写入该对话。不会在聊天中发送消息。刷新后的几条消息缓存命中率较低，可能产生额外费用",
+      "confirm_message_refresh_no_backup": "将把最新系统提示词快照写入对话“%s”。不会在聊天中发送消息。刷新后的几条消息缓存命中率较低，可能产生额外费用",
+      "confirm_message_refresh_edit": "将先备份对话“%s”，然后只替换下方人格提示词片段并写入快照；其他系统提示词保持不变，不会在聊天中发送消息。刷新后的几条消息缓存命中率较低，可能产生额外费用",
+      "confirm_message_refresh_edit_no_backup": "将只替换对话“%s”下方的人格提示词片段并写入快照；其他系统提示词保持不变，不会在聊天中发送消息。刷新后的几条消息缓存命中率较低，可能产生额外费用",
+      "persona_label": "人格提示词片段",
+      "persona_unavailable": "未找到人格提示词片段，将使用完整系统提示词刷新",
+      "confirm_ok_refresh": "确认刷新",
+      "confirm_title_copy": "备份对话",
+      "confirm_message_copy": "将把对话“%s”另存为备份，原对话保持不变",
+      "confirm_ok_copy": "确认备份",
+      "backup_title_label": "备份名称",
+      "backup_title_placeholder": "输入备份后的对话名称",
+      "confirm_title_delete": "删除对话",
+      "confirm_message_delete": "将永久删除对话“%s”及其全部聊天记录，无法恢复",
+      "confirm_ok_delete": "确认删除",
+      "confirm_ok_delete_again": "再次点击确认删除",
+      "confirm_title_clear": "清除快照",
+      "confirm_message_clear": "将删除该对话中由刷新写入的系统提示词快照，相当于撤销这次刷新对上下文的强化。不会删除聊天记录，也不会修改人格或系统提示词配置；已另存的备份对话不会受影响",
+      "confirm_ok_clear": "确认清除",
+      "confirm_cancel": "取消",
+      "refresh_disabled_hint": "请先在对话中发一条消息，让插件记录系统提示词",
+      "refresh_need_record": "“%s”还没有记录系统提示词，请先在这个对话里发一条消息再刷新",
+      "refresh_need_record_title": "尚未记录系统提示词",
+      "confirm_ok_notice": "知道了",
+      "working": "正在处理…",
+      "done": "操作完成",
+      "just_now": "刚刚",
+      "minutes_ago": "%s 分钟前",
+      "hours_ago": "%s 小时前",
+      "days_ago": "%s 天前"
+    }
+  }
+}
